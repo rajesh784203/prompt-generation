@@ -41,3 +41,13 @@ class PromptResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+
+class GoogleAuthRequest(BaseModel):
+    token: str
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+

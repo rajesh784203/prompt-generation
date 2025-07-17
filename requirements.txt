@@ -5,3 +5,9 @@ sqlalchemy
 python-dotenv
 openai==0.28
 psycopg2-binary
+passlib[bcrypt]
+python-jose
+google-auth
+firebase-admin
+jinja2
+
