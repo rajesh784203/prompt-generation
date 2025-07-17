@@ -15,7 +15,7 @@ def get_db():
         db.close()
 
 
-@router.post("/users/", response_model = UserResponse)
+@router.post("/signup/", response_model = UserResponse)
 def create_user(user : UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.gmail_id == user.gmail_id).first()
     if db_user:
@@ -31,12 +31,12 @@ def create_user(user : UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
-@router.post("/users/verify", response_model=UserResponse)
-def verify_login(credentials: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.gmail_id == credentials.gmail_id).first()
-    if not db_user or db_user.password != credentials.password:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    return db_user
+# @router.post("/users/verify", response_model=UserResponse)
+# def verify_login(credentials: UserLogin, db: Session = Depends(get_db)):
+#     db_user = db.query(User).filter(User.gmail_id == credentials.gmail_id).first()
+#     if not db_user or db_user.password != credentials.password:
+#         raise HTTPException(status_code=401, detail="Invalid credentials")
+#     return db_user
 
 @router.get("/users/{gmail_id}/verify_credits")
 def verify_credits(gmail_id: str, db: Session = Depends(get_db)):
@@ -52,17 +52,17 @@ def verify_credits(gmail_id: str, db: Session = Depends(get_db)):
 def get_user_chats(gmail_id: str, db: Session = Depends(get_db)):
     return db.query(Prompt).filter(Prompt.gmail_id == gmail_id).order_by(Prompt.timestamp.desc()).all()
 
-@router.delete("/delete/{gmail_id}/{prompt_id}")
-def delete_chat(gmail_id: str, prompt_id: int, db: Session = Depends(get_db)):
-    chat = db.query(Prompt).filter(
-        Prompt.id == prompt_id,
-        Prompt.gmail_id == gmail_id
-    ).first()
-    if not chat:
-        raise HTTPException(status_code=404, detail="Prompt not found")
+# @router.delete("/delete/{gmail_id}/{prompt_id}")
+# def delete_chat(gmail_id: str, prompt_id: int, db: Session = Depends(get_db)):
+#     chat = db.query(Prompt).filter(
+#         Prompt.id == prompt_id,
+#         Prompt.gmail_id == gmail_id
+#     ).first()
+#     if not chat:
+#         raise HTTPException(status_code=404, detail="Prompt not found")
 
-    db.delete(chat)
-    db.commit()
-    return {"message": "Prompt deleted successfully"}
+#     db.delete(chat)
+#     db.commit()
+#     return {"message": "Prompt deleted successfully"}
 
 

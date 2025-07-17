@@ -74,9 +74,9 @@ def get_current_user(token: Optional[str] = Cookie(None)):
 
 # === ROUTES ===
 
-@app.get("/signup", response_class=HTMLResponse)
-async def signup_page(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request})
+# @app.get("/signup", response_class=HTMLResponse)
+# async def signup_page(request: Request):
+#     return templates.TemplateResponse("signup.html", {"request": request})
 
 
 @app.post("/signin", response_model=TokenResponse)
