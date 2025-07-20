@@ -21,7 +21,9 @@ class UserLogin(BaseModel):
     gmail_id: str
     password: str
 
-
+class SuccessLogin(BaseModel):
+    user_name: str
+    gmail_id: str
     
 class PromptCreate(BaseModel):
     gmail_id: str

@@ -9,7 +9,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from models.orm_models import User
-from models.pydantic_models import UserLogin, TokenResponse, GoogleAuthRequest, UserResponse
+from models.pydantic_models import UserLogin, TokenResponse, GoogleAuthRequest, UserResponse, SuccessLogin
 from database.db import SessionLocal
 from fastapi.templating import Jinja2Templates
 import firebase_admin
@@ -79,18 +79,17 @@ def get_current_user(token: Optional[str] = Cookie(None)):
 #     return templates.TemplateResponse("signup.html", {"request": request})
 
 
-@app.post("/signin", response_model=TokenResponse)
+@app.post("/signin", response_model=SuccessLogin)
 def signin(data: UserLogin, response: Response, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.gmail_id == data.gmail_id).first()
     if not db_user or db_user.password != data.password:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    access_token = create_access_token({"sub": data.gmail_id})
-    response.set_cookie(key="token", value=access_token, httponly=True, samesite="lax")
-    return TokenResponse(access_token=access_token)
+    
+    return SuccessLogin(user_name=db_user.user_name, gmail_id=db_user.gmail_id)
 
 
-@app.post("/auth/google", response_model=TokenResponse)
+@app.post("/auth/google", response_model=SuccessLogin)
 def auth_google(data: GoogleAuthRequest, response: Response, db: Session = Depends(get_db)):
     try:
         decoded_token = firebase_auth.verify_id_token(data.token)
@@ -108,9 +107,8 @@ def auth_google(data: GoogleAuthRequest, response: Response, db: Session = Depen
             db.add(new_user)
             db.commit()
 
-        access_token = create_access_token({"sub": email})
-        response.set_cookie(key="token", value=access_token, httponly=True, samesite="lax")
-        return TokenResponse(access_token=access_token)
+        
+        return SuccessLogin(user_name=name, gmail_id=email)
 
     except Exception as e:
         print(f"Firebase verification failed: {e}")
