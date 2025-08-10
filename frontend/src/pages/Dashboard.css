@@ -1,0 +1,72 @@
+/* Colorful CSS for AI Prompt Generator */
+.generator-container {
+  max-width: 80vw;
+  margin: 50px auto;
+  padding: 80px;
+  background-color: #f0f8ff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.generator-container h2 {
+  text-align: center;
+  color: #0e4d92;
+  margin-bottom: 20px;
+}
+
+.generator-container textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 2px solid #4a90e2;
+  background-color: #ffffff;
+  font-size: 16px;
+  resize: vertical;
+  transition: border 0.3s;
+}
+
+.generator-container textarea:focus {
+  outline: none;
+  border-color: #ff6f61;
+}
+
+.generator-container button {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.generator-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.generator-container button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.generator-container h3 {
+  color: #ff6f61;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.generator-container pre {
+  background-color: #fffbea;
+  color: #333;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px dashed #f39c12;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
