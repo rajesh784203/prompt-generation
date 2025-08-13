@@ -8,9 +8,9 @@ from google.auth.transport import requests as google_requests
 from typing import Optional
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from models.orm_models import User
-from models.pydantic_models import UserCreate, UserLogin, TokenResponse, GoogleAuthRequest, UserResponse, SuccessLogin
-from database.db import SessionLocal
+from prompt_gen.models.orm_models import User
+from prompt_gen.models.pydantic_models import UserCreate, UserLogin, TokenResponse, GoogleAuthRequest, UserResponse, SuccessLogin
+from prompt_gen.database.db import SessionLocal
 from fastapi.templating import Jinja2Templates
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth

@@ -1,0 +1,24 @@
+FROM ubuntu:latest
+
+# Expose Ollama default port
+EXPOSE 11434
+
+# Install curl and other dependencies
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Preload the model
+RUN ollama serve & \
+    sleep 8 && \
+    ollama pull deepseek-llm:7b && \
+    pkill ollama
+
+# Make Ollama listen on all interfaces
+ENV OLLAMA_HOST=0.0.0.0
+
+# Start Ollama server by default
+CMD ["ollama", "serve"]

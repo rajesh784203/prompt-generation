@@ -11,3 +11,4 @@ google-auth
 firebase-admin
 jinja2
 pytz
+python-dotenv

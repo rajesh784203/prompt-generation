@@ -2,14 +2,18 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from models.orm_models import Prompt, User
-from database.db import SessionLocal
-from models.pydantic_models import PromptCreate, PromptAnswerInput, PromptResponse, PromptUsageStats
+from prompt_gen.models.orm_models import Prompt, User
+from prompt_gen.database.db import SessionLocal
+from prompt_gen.models.pydantic_models import PromptCreate, PromptAnswerInput, PromptResponse, PromptUsageStats
 from datetime import datetime, timedelta
 from typing import List
 from pytz import timezone
 import requests
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+AI_URL = os.getenv("OLLAMA_API_URL")
 router = APIRouter()
 ist = timezone("Asia/Kolkata")
 # === DB Dependency ===
@@ -23,7 +27,7 @@ def get_db():
 # === Ollama LLM Query ===
 def query_deepseek_ollama(prompt: str):
     try:
-        response = requests.post("http://localhost:11434/api/generate", json={
+        response = requests.post(AI_URL, json={
             "model": "deepseek-llm:7b",
             "prompt": prompt,
             "stream": False
